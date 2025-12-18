@@ -1,0 +1,11 @@
+# General
+.DS_Store
+.env
+
+# Angular
+node_modules/
+dist/
+
+# Spring Boot
+target/
+*.log
