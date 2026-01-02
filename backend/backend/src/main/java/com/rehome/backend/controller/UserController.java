@@ -1,5 +1,6 @@
 package com.rehome.backend.controller;
 
+import com.rehome.backend.dto.UserDTO;
 import com.rehome.backend.model.User;
 import com.rehome.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-// Controlador de usuarios con CRUD completo
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -19,13 +19,11 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    // Obtener todos los usuarios
     @GetMapping
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // Obtener un usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -33,36 +31,36 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Crear un usuario
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword()); // luego podremos hashear la contraseña
         return userRepository.save(user);
     }
 
-    // Actualizar un usuario
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         Optional<User> optionalUser = userRepository.findById(id);
+
         if (optionalUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         User user = optionalUser.get();
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPassword(updatedUser.getPassword());
-        // Si añades más campos al modelo User, los actualizas aquí
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
 
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    // Borrar un usuario
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         if (!userRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-
         userRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }

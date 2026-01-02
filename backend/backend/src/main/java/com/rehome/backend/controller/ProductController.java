@@ -1,9 +1,8 @@
 package com.rehome.backend.controller;
 
+import com.rehome.backend.dto.ProductDTO;
 import com.rehome.backend.model.Product;
-import com.rehome.backend.model.User;
 import com.rehome.backend.repository.ProductRepository;
-import com.rehome.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,30 +15,16 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
 
-    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
+    public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.userRepository = userRepository;
     }
 
-    // GET /products -> todos los productos
-    // Soporta filtros opcionales por categoría y condition
     @GetMapping
-    public List<Product> getAllProducts(@RequestParam(required = false) String category,
-                                        @RequestParam(required = false) String condition) {
-        if (category != null && condition != null) {
-            return productRepository.findByCategoryAndCondition(category, condition);
-        } else if (category != null) {
-            return productRepository.findByCategory(category);
-        } else if (condition != null) {
-            return productRepository.findByCondition(condition);
-        } else {
-            return productRepository.findAll();
-        }
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
-    // GET /products/{id} -> producto por id
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -47,20 +32,24 @@ public class ProductController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // POST /products?userId=1 -> crear producto asociado a un usuario
+    // Crear producto usando DTO
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product, @RequestParam Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
-
-        product.setUser(user);
+    public Product createProduct(@RequestBody ProductDTO productDTO) {
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setCategory(productDTO.getCategory());
+        product.setCondition(productDTO.getCondition());
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl());
         product.setPublishedAt(LocalDateTime.now());
-        return ResponseEntity.ok(productRepository.save(product));
+
+        return productRepository.save(product);
     }
 
-    // PUT /products/{id} -> actualizar producto
+    // Actualizar producto usando DTO
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepository.findById(id);
 
         if (optionalProduct.isEmpty()) {
@@ -68,17 +57,16 @@ public class ProductController {
         }
 
         Product product = optionalProduct.get();
-        product.setName(updatedProduct.getName());
-        product.setDescription(updatedProduct.getDescription());
-        product.setCategory(updatedProduct.getCategory());
-        product.setCondition(updatedProduct.getCondition());
-        product.setPrice(updatedProduct.getPrice());
-        product.setImageUrl(updatedProduct.getImageUrl());
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setCategory(productDTO.getCategory());
+        product.setCondition(productDTO.getCondition());
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl());
 
         return ResponseEntity.ok(productRepository.save(product));
     }
 
-    // DELETE /products/{id} -> borrar producto
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         if (!productRepository.existsById(id)) {
