@@ -6,9 +6,15 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    // Filtrar por categoría
     List<Product> findByCategory(String category);
 
+    // Filtrar por condición (new/used)
     List<Product> findByCondition(String condition);
 
+    // Filtrar por categoría y condición juntas
     List<Product> findByCategoryAndCondition(String category, String condition);
+
+    // Filtrar productos por usuario
+    List<Product> findByUserId(Long userId);
 }

@@ -1,0 +1,19 @@
+<div *ngIf="loading">Cargando producto...</div>
+
+<div *ngIf="!loading && product">
+  <h2>{{ product.name }}</h2>
+  <p><strong>Descripción:</strong> {{ product.description }}</p>
+  <p><strong>Categoría:</strong> {{ product.category }}</p>
+  <p><strong>Estado:</strong> {{ product.condition }}</p>
+  <p *ngIf="product.price"><strong>Precio:</strong> {{ product.price | currency }}</p>
+  <p><strong>Publicado el:</strong> {{ product.publishedAt | date:'short' }}</p>
+  <div *ngIf="product.imageUrl">
+    <img [src]="product.imageUrl" alt="{{ product.name }}" style="max-width: 300px;">
+  </div>
+
+  <button (click)="goBack()">Volver al listado</button>
+</div>
+
+<div *ngIf="!loading && !product">
+  <p>Producto no encontrado.</p>
+</div>

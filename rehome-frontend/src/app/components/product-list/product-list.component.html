@@ -1,0 +1,31 @@
+<div *ngIf="loading">Cargando productos...</div>
+
+<table *ngIf="!loading && products.length > 0" border="1" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Categoría</th>
+      <th>Estado</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.name }}</td>
+      <td>{{ product.category }}</td>
+      <td>{{ product.condition }}</td>
+      <td *ngIf="product.price">{{ product.price | currency:'EUR' }}</td>
+      <td *ngIf="!product.price">Gratis</td>
+      <td>
+        <button (click)="viewProduct(product.id!)">Ver</button>
+        <button (click)="editProduct(product.id!)">Editar</button>
+        <button (click)="deleteProduct(product.id!)">Borrar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && products.length === 0">
+  No hay productos disponibles.
+</div>

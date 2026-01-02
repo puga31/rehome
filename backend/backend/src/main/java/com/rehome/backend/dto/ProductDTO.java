@@ -5,12 +5,22 @@ public class ProductDTO {
     private String name;
     private String description;
     private String category;
-    private String condition;
-    private Double price;
+    private String condition; // New or Used
+    private Double price;     // Puede ser null
     private String imageUrl;
+    private Long userId;      // ID del usuario propietario (nuevo)
 
-    // Constructor vacío
     public ProductDTO() {}
+
+    public ProductDTO(String name, String description, String category, String condition, Double price, String imageUrl, Long userId) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.condition = condition;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.userId = userId;
+    }
 
     // Getters y Setters
     public String getName() { return name; }
@@ -30,4 +40,7 @@ public class ProductDTO {
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 }

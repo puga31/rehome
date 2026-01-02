@@ -2,7 +2,9 @@ package com.rehome.backend.controller;
 
 import com.rehome.backend.dto.ProductDTO;
 import com.rehome.backend.model.Product;
+import com.rehome.backend.model.User;
 import com.rehome.backend.repository.ProductRepository;
+import com.rehome.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,16 +17,20 @@ import java.util.Optional;
 public class ProductController {
 
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
-    public ProductController(ProductRepository productRepository) {
+    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
         this.productRepository = productRepository;
+        this.userRepository = userRepository;
     }
 
+    // Obtener todos los productos
     @GetMapping
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
+    // Obtener producto por ID
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Optional<Product> product = productRepository.findById(id);
@@ -32,9 +38,12 @@ public class ProductController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Crear producto usando DTO
+    // Crear producto
     @PostMapping
-    public Product createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
+        User user = userRepository.findById(productDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id " + productDTO.getUserId()));
+
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
@@ -43,15 +52,15 @@ public class ProductController {
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
         product.setPublishedAt(LocalDateTime.now());
+        product.setUser(user);
 
-        return productRepository.save(product);
+        return ResponseEntity.ok(productRepository.save(product));
     }
 
-    // Actualizar producto usando DTO
+    // Actualizar producto
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         Optional<Product> optionalProduct = productRepository.findById(id);
-
         if (optionalProduct.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -64,9 +73,17 @@ public class ProductController {
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
 
+        // Actualizar usuario si se proporciona
+        if (productDTO.getUserId() != null) {
+            User user = userRepository.findById(productDTO.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found with id " + productDTO.getUserId()));
+            product.setUser(user);
+        }
+
         return ResponseEntity.ok(productRepository.save(product));
     }
 
+    // Borrar producto
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         if (!productRepository.existsById(id)) {
@@ -74,5 +91,11 @@ public class ProductController {
         }
         productRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Listar productos por usuario
+    @GetMapping("/user/{userId}")
+    public List<Product> getProductsByUser(@PathVariable Long userId) {
+        return productRepository.findByUserId(userId);
     }
 }
