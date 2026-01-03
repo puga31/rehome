@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ProductListComponent } from './components/product-list/product-list.component';
 import { ProductEditComponent } from './components/product-edit/product-edit.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
+import { CartComponent } from './components/cart/cart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/products', pathMatch: 'full' },
@@ -14,4 +15,7 @@ export const routes: Routes = [
 
   // Editar
   { path: 'products/edit/:id', component: ProductEditComponent },
+
+  // Carrito
+  { path: 'cart', component: CartComponent },
 ];

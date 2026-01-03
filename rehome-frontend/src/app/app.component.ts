@@ -10,7 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     NavbarComponent
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']  // CORREGIDO: styleUrls en plural
 })
 export class AppComponent {
   title = 'rehome-frontend';
