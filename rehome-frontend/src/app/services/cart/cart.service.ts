@@ -20,6 +20,14 @@ export class CartService {
       this.items = JSON.parse(savedCart);
       this.cartSubject.next(this.items);
     }
+
+    // Escuchar cambios en otras pestañas
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'cart') {
+        this.items = event.newValue ? JSON.parse(event.newValue) : [];
+        this.cartSubject.next(this.items);
+      }
+    });
   }
 
   // Guardar carrito en localStorage
@@ -43,7 +51,7 @@ export class CartService {
     }
 
     this.cartSubject.next(this.items);
-    this.saveCart(); // ✅ persistir
+    this.saveCart();
   }
 
   // Quitar una unidad
@@ -61,14 +69,14 @@ export class CartService {
     }
 
     this.cartSubject.next(this.items);
-    this.saveCart(); // ✅ persistir
+    this.saveCart();
   }
 
   // Vaciar carrito
   clearCart(): void {
     this.items = [];
     this.cartSubject.next(this.items);
-    this.saveCart(); // ✅ persistir
+    this.saveCart();
   }
 
   // Total del carrito

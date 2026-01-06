@@ -4,10 +4,16 @@
 
 <div *ngIf="!loading && product">
   <h2>{{ product.name }}</h2>
+  
   <p><strong>Descripción:</strong> {{ product.description }}</p>
   <p><strong>Categoría:</strong> {{ product.category }}</p>
   <p><strong>Estado:</strong> {{ product.condition }}</p>
-  <p *ngIf="product.price"><strong>Precio:</strong> {{ product.price | currency }}</p>
+  
+  <p>
+    <strong>Precio:</strong>
+    {{ product.price != null ? (product.price | currency:'EUR':'symbol':'1.2-2') : 'Gratis' }}
+  </p>
+  
   <p><strong>Publicado el:</strong> {{ product.publishedAt | date:'short' }}</p>
 
   <div *ngIf="product.imageUrl">

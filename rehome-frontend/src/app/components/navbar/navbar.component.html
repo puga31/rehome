@@ -1,13 +1,27 @@
 <nav class="navbar">
-  <div class="logo" routerLink="/">Rehome</div>
+  <div class="logo" routerLink="/">ReHome</div>
+
+  <!-- Input de búsqueda -->
+  <div class="search-container">
+    <input
+      type="text"
+      placeholder="Buscar producto..."
+      [(ngModel)]="searchTerm"
+      (input)="onSearch()"
+      class="search-input"
+    />
+
+    <!-- Lista de sugerencias -->
+    <ul *ngIf="suggestions.length > 0" class="suggestions">
+      <li *ngFor="let p of suggestions" (click)="goToProduct(p.id)">
+        {{ p.name }}
+      </li>
+    </ul>
+  </div>
 
   <ul class="nav-links">
     <li><a routerLink="/products">Productos</a></li>
     <li><a routerLink="/products/new">Nuevo producto</a></li>
-    <li>
-      <a routerLink="/cart">
-        Carrito ({{ cartCount }}) <!-- ahora reactivo -->
-      </a>
-    </li>
+    <li><a routerLink="/cart">Carrito ({{ cartCount }})</a></li>
   </ul>
 </nav>

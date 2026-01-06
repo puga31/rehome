@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <-- Importa CommonModule
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-list',
-  standalone: true, // <-- si es standalone
-  imports: [CommonModule], // <-- aquí agregas CommonModule
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.css']
 })
@@ -21,6 +21,7 @@ export class ProductListComponent implements OnInit {
     this.loadProducts();
   }
 
+  // Cargar productos desde el backend
   loadProducts(): void {
     this.loading = true;
     this.productService.getProducts().subscribe({
@@ -35,6 +36,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  // Navegación
   viewProduct(id: number): void {
     this.router.navigate(['/products', id]);
   }
