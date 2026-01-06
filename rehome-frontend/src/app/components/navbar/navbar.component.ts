@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     // Suscribimos al observable del carrito
     this.cartService.cart$.subscribe(items => {
-      this.cartCount = items.length; // actualiza automáticamente el contador
+      this.cartCount = this.cartService.getCount(); // actualiza automáticamente el contador
     });
   }
 }

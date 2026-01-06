@@ -1,43 +1,89 @@
 import { Injectable } from '@angular/core';
-import { Product } from '../../models/product.model';
 import { BehaviorSubject } from 'rxjs';
+import { Product } from '../../models/product.model';
+import { CartItem } from '../../models/cart-item.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  private items: Product[] = [];
+  private items: CartItem[] = [];
 
-  // BehaviorSubject para notificar cambios
-  private cartSubject = new BehaviorSubject<Product[]>([]);
-  cart$ = this.cartSubject.asObservable(); // Observable público
+  private cartSubject = new BehaviorSubject<CartItem[]>([]);
+  cart$ = this.cartSubject.asObservable();
 
-  // Obtener productos actuales
-  getItems(): Product[] {
-    return this.items;
+  constructor() {
+    // Cargar carrito desde localStorage al iniciar
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      this.items = JSON.parse(savedCart);
+      this.cartSubject.next(this.items);
+    }
   }
 
-  // Añadir producto al carrito
+  // Guardar carrito en localStorage
+  private saveCart(): void {
+    localStorage.setItem('cart', JSON.stringify(this.items));
+  }
+
+  // Añadir producto
   addToCart(product: Product): void {
-    this.items.push(product);
-    this.cartSubject.next(this.items); // Notifica cambio
+    const existingItem = this.items.find(
+      item => item.product.id === product.id
+    );
+
+    if (existingItem) {
+      existingItem.quantity++;
+    } else {
+      this.items.push({
+        product,
+        quantity: 1
+      });
+    }
+
+    this.cartSubject.next(this.items);
+    this.saveCart(); // ✅ persistir
   }
 
-  // Eliminar producto por índice
-  removeFromCart(index: number): void {
-    this.items.splice(index, 1);
-    this.cartSubject.next(this.items); // Notifica cambio
+  // Quitar una unidad
+  removeOne(productId: number): void {
+    const index = this.items.findIndex(
+      item => item.product.id === productId
+    );
+
+    if (index !== -1) {
+      if (this.items[index].quantity > 1) {
+        this.items[index].quantity--;
+      } else {
+        this.items.splice(index, 1);
+      }
+    }
+
+    this.cartSubject.next(this.items);
+    this.saveCart(); // ✅ persistir
   }
 
   // Vaciar carrito
   clearCart(): void {
     this.items = [];
-    this.cartSubject.next(this.items); // Notifica cambio
+    this.cartSubject.next(this.items);
+    this.saveCart(); // ✅ persistir
   }
 
-  // Número de productos
+  // Total del carrito
+  getTotal(): number {
+    return this.items.reduce(
+      (total, item) => total + (item.product.price || 0) * item.quantity,
+      0
+    );
+  }
+
+  // Cantidad total de productos
   getCount(): number {
-    return this.items.length;
+    return this.items.reduce(
+      (count, item) => count + item.quantity,
+      0
+    );
   }
 }
