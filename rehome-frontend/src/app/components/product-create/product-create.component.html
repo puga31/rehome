@@ -1,0 +1,38 @@
+<h2>Crear nuevo producto</h2>
+
+<form (ngSubmit)="saveProduct()">
+  <div>
+    <label>Nombre:</label>
+    <input type="text" [(ngModel)]="product.name" name="name" required />
+  </div>
+
+  <div>
+    <label>Descripción:</label>
+    <textarea [(ngModel)]="product.description" name="description"></textarea>
+  </div>
+
+  <div>
+    <label>Categoría:</label>
+    <input type="text" [(ngModel)]="product.category" name="category" required />
+  </div>
+
+  <div>
+    <label>Estado:</label>
+    <select [(ngModel)]="product.condition" name="condition">
+      <option value="New">Nuevo</option>
+      <option value="Used">Usado</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Precio (€):</label>
+    <input type="number" [(ngModel)]="product.price" name="price" />
+  </div>
+
+  <div>
+    <label>URL de la imagen:</label>
+    <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" />
+  </div>
+
+  <button type="submit">Guardar producto</button>
+</form>
