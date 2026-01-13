@@ -15,7 +15,9 @@ public class Product {
     @Column(length = 100)
     private String description;
 
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Column(name = "product_condition")
     private String condition; //New or Used
@@ -35,7 +37,7 @@ public class Product {
 
     //Constructor con parámetros
 
-    public Product(String name, String description, String category, String condition, Double price, LocalDateTime publishedAt, String imageUrl) {
+    public Product(String name, String description, Category category, String condition, Double price, LocalDateTime publishedAt, String imageUrl) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -55,8 +57,8 @@ public class Product {
     public String getDescription() {return description;}
     public void setDescription(String description) {this.description = description;}
 
-    public String getCategory() {return category;}
-    public void setCategory(String category) {this.category = category;}
+    public Category getCategory() {return category;}
+    public void setCategory(Category category) {this.category = category;}
 
     public String getCondition() {return condition;}
     public void setCondition(String condition) {this.condition = condition;}

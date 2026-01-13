@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart/cart.service';
@@ -18,29 +18,25 @@ export class NavbarComponent implements OnInit {
   cartCount = 0;
   searchTerm: string = '';
   suggestions: Product[] = [];
-
-  private productsLoaded = false; // controla si la cache ya terminó de cargar
+  private productsLoaded = false;
 
   constructor(
     private cartService: CartService,
     private router: Router,
-    private productCache: ProductCacheService
+    private productCache: ProductCacheService,
+    private eRef: ElementRef
   ) {}
 
   ngOnInit(): void {
-    // Contador del carrito
-    this.cartService.cart$.subscribe(items => {
+    this.cartService.cart$.subscribe(() => {
       this.cartCount = this.cartService.getCount();
     });
 
-    // Cargar productos en cache al inicio
     this.productCache.loadProducts().then(() => {
       this.productsLoaded = true;
-      this.updateSuggestions();
     });
   }
 
-  // Al escribir en el input
   onSearch(): void {
     if (!this.searchTerm) {
       this.suggestions = [];
@@ -48,28 +44,36 @@ export class NavbarComponent implements OnInit {
     }
 
     if (!this.productsLoaded) {
-      // Esperar a que la cache termine de cargar
       this.productCache.loadProducts().then(() => {
         this.productsLoaded = true;
         this.updateSuggestions();
       });
     } else {
-      // filtrar directamente en memoria
       this.updateSuggestions();
     }
   }
 
-  // Actualiza la lista de sugerencias
   private updateSuggestions(): void {
     this.suggestions = this.productCache
       .filterProducts(this.searchTerm)
-      .slice(0, 5); // máximo 5 sugerencias
+      .slice(0, 5);
   }
 
-  // Ir al detalle del producto
   goToProduct(id: number): void {
     this.router.navigate(['/products', id]);
+    this.resetSearch();
+  }
+
+  private resetSearch(): void {
     this.searchTerm = '';
     this.suggestions = [];
+  }
+
+  // Detecta click fuera del navbar y cierra sugerencias
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.suggestions = [];
+    }
   }
 }

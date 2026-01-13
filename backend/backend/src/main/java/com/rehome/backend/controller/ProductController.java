@@ -1,8 +1,10 @@
 package com.rehome.backend.controller;
 
 import com.rehome.backend.dto.ProductDTO;
+import com.rehome.backend.model.Category;
 import com.rehome.backend.model.Product;
 import com.rehome.backend.model.User;
+import com.rehome.backend.repository.CategoryRepository;
 import com.rehome.backend.repository.ProductRepository;
 import com.rehome.backend.repository.UserRepository;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +16,19 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "*") // Para que Angular pueda hacer peticiones
 public class ProductController {
 
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
-    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
+    public ProductController(ProductRepository productRepository,
+                             UserRepository userRepository,
+                             CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     // Obtener todos los productos
@@ -41,13 +48,19 @@ public class ProductController {
     // Crear producto
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody ProductDTO productDTO) {
+        // Buscar usuario
         User user = userRepository.findById(productDTO.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id " + productDTO.getUserId()));
 
+        // Buscar categoría
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with id " + productDTO.getCategoryId()));
+
+        // Crear producto
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        product.setCategory(productDTO.getCategory());
+        product.setCategory(category);  // ✅ ahora correcto
         product.setCondition(productDTO.getCondition());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
@@ -68,7 +81,12 @@ public class ProductController {
         Product product = optionalProduct.get();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        product.setCategory(productDTO.getCategory());
+
+        // Actualizar categoría
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found with id " + productDTO.getCategoryId()));
+        product.setCategory(category);
+
         product.setCondition(productDTO.getCondition());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());

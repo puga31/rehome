@@ -4,7 +4,7 @@ public class ProductDTO {
 
     private String name;
     private String description;
-    private String category;
+    private Long categoryId;
     private String condition; // New or Used
     private Double price;     // Puede ser null
     private String imageUrl;
@@ -12,10 +12,10 @@ public class ProductDTO {
 
     public ProductDTO() {}
 
-    public ProductDTO(String name, String description, String category, String condition, Double price, String imageUrl, Long userId) {
+    public ProductDTO(String name, String description, Long categoryId, String condition, Double price, String imageUrl, Long userId) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.categoryId = categoryId;
         this.condition = condition;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -29,8 +29,8 @@ public class ProductDTO {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public Long getCategoryId() { return categoryId; }
+    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
 
     public String getCondition() { return condition; }
     public void setCondition(String condition) { this.condition = condition; }
