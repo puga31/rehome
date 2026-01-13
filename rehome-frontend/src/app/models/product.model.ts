@@ -1,11 +1,16 @@
+export interface Category {
+  id: number;
+  name: string;
+}
+
 export interface Product {
-  id: number;           // Opcional porque al crear un producto todavía no tiene ID
+  id: number;
   name: string;
   description: string;
-  category: string;
-  condition: string;     // "New" o "Used"
-  price?: number;        // Opcional, puede ser null si es un regalo
-  publishedAt?: string;  // Fecha en formato ISO
-  imageUrl?: string;     // URL de la imagen, opcional
-  userId?: number;       // Relación con el usuario, opcional
+  category?: Category | null; // <-- categoría puede ser null o undefined
+  condition: string;
+  price?: number;
+  publishedAt?: string;
+  imageUrl?: string;
+  userId?: number;
 }

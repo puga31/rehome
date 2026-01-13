@@ -8,7 +8,7 @@ import { ProductCreateComponent } from './components/product-create/product-crea
 export const routes: Routes = [
   { path: '', redirectTo: '/products', pathMatch: 'full' },
 
-  // Nuevo producto primero
+  // Nuevo producto
   { path: 'products/new', component: ProductCreateComponent },
 
   // Editar
@@ -17,8 +17,11 @@ export const routes: Routes = [
   // Detalle
   { path: 'products/:id', component: ProductDetailComponent },
 
-  // Listado
+  // Listado de productos
   { path: 'products', component: ProductListComponent },
+
+  // Listado por categoría
+  { path: 'products/category/:id', component: ProductListComponent },
 
   // Carrito
   { path: 'cart', component: CartComponent },

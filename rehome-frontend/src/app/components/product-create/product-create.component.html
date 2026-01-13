@@ -13,7 +13,12 @@
 
   <div>
     <label>Categoría:</label>
-    <input type="text" [(ngModel)]="product.category" name="category" required />
+    <select [(ngModel)]="product.category" name="category" required>
+      <option [ngValue]="null">-- Selecciona una categoría --</option>
+      <option *ngFor="let c of categories" [ngValue]="c">
+        {{ c.name }}
+      </option>
+    </select>
   </div>
 
   <div>

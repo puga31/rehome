@@ -1,10 +1,11 @@
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { CartService } from '../../services/cart/cart.service';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/product.model';
 import { ProductCacheService } from '../../services/product-cache.service';
+import { CategoryService, Category } from '../../services/category.service';
 
 @Component({
   selector: 'app-navbar',
@@ -20,20 +21,33 @@ export class NavbarComponent implements OnInit {
   suggestions: Product[] = [];
   private productsLoaded = false;
 
+  categories: Category[] = []; // <-- categorias cargadas del backend
+
   constructor(
     private cartService: CartService,
     private router: Router,
     private productCache: ProductCacheService,
+    private categoryService: CategoryService, // <-- inyectamos el servicio
     private eRef: ElementRef
   ) {}
 
   ngOnInit(): void {
+    // Contador del carrito
     this.cartService.cart$.subscribe(() => {
       this.cartCount = this.cartService.getCount();
     });
 
+    // Cargar productos cache
     this.productCache.loadProducts().then(() => {
       this.productsLoaded = true;
+    });
+
+    // Cargar categorías desde backend
+    this.categoryService.getCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (err) => console.error('Error al cargar categorías:', err)
     });
   }
 
@@ -61,6 +75,11 @@ export class NavbarComponent implements OnInit {
 
   goToProduct(id: number): void {
     this.router.navigate(['/products', id]);
+    this.resetSearch();
+  }
+
+  goToCategory(id: number): void {
+    this.router.navigate(['/products/category', id]);
     this.resetSearch();
   }
 

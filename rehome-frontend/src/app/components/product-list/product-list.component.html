@@ -13,7 +13,7 @@
   <tbody>
     <tr *ngFor="let product of products">
       <td>{{ product.name }}</td>
-      <td>{{ product.category }}</td>
+      <td>{{ product.category?.name || 'Sin categoría'}}</td>
       <td>{{ product.condition }}</td>
       <td *ngIf="product.price">{{ product.price | currency:'EUR' }}</td>
       <td *ngIf="!product.price">Gratis</td>

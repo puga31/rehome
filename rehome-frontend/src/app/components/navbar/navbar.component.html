@@ -18,7 +18,16 @@
   </div>
 
   <ul class="nav-links">
-    <li><a routerLink="/products">Productos</a></li>
+    <!-- Dropdown de categorías -->
+    <li class="dropdown">
+      <a href="#">Productos ▼</a>
+      <ul class="dropdown-menu">
+        <li *ngFor="let cat of categories" (click)="goToCategory(cat.id)">
+          {{ cat.name }}
+        </li>
+      </ul>
+    </li>
+
     <li><a routerLink="/products/new">Nuevo producto</a></li>
     <li><a routerLink="/cart">Carrito ({{ cartCount }})</a></li>
   </ul>

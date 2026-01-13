@@ -60,7 +60,7 @@ public class ProductController {
         Product product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
-        product.setCategory(category);  // ✅ ahora correcto
+        product.setCategory(category);
         product.setCondition(productDTO.getCondition());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
@@ -115,5 +115,13 @@ public class ProductController {
     @GetMapping("/user/{userId}")
     public List<Product> getProductsByUser(@PathVariable Long userId) {
         return productRepository.findByUserId(userId);
+    }
+
+    // ✅ Listar productos por categoría
+    @GetMapping("/category/{categoryId}")
+    public List<Product> getProductsByCategory(@PathVariable Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Category not found with id " + categoryId));
+        return productRepository.findByCategory(category);
     }
 }

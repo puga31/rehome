@@ -11,7 +11,10 @@
   <textarea [(ngModel)]="product.description" name="description"></textarea>
 
   <label>Categoría</label>
-  <input type="text" [(ngModel)]="product.category" name="category" />
+  <select [(ngModel)]="product.category" name="category" required>
+    <option [ngValue]="null">-- Selecciona una categoría --</option>
+    <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
+  </select>
 
   <label>Estado</label>
   <select [(ngModel)]="product.condition" name="condition">
