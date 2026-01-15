@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/product.model';
 import { ProductCacheService } from '../../services/product-cache.service';
 import { CategoryService, Category } from '../../services/category.service';
+import { AuthService } from '../../services/auth.service'; // 🔹 Import AuthService
 
 @Component({
   selector: 'app-navbar',
@@ -20,15 +21,15 @@ export class NavbarComponent implements OnInit {
   searchTerm: string = '';
   suggestions: Product[] = [];
   private productsLoaded = false;
-
-  categories: Category[] = []; // <-- categorias cargadas del backend
+  categories: Category[] = []; // categorías cargadas del backend
 
   constructor(
     private cartService: CartService,
     private router: Router,
     private productCache: ProductCacheService,
-    private categoryService: CategoryService, // <-- inyectamos el servicio
-    private eRef: ElementRef
+    private categoryService: CategoryService,
+    private eRef: ElementRef,
+    private authService: AuthService // 🔹 inyectar AuthService
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +52,18 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  // 🔹 Comprobar si hay usuario logueado
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  // 🔹 Logout
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  // 🔹 Búsqueda de productos
   onSearch(): void {
     if (!this.searchTerm) {
       this.suggestions = [];

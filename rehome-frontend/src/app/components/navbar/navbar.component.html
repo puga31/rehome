@@ -1,12 +1,13 @@
 <nav class="navbar">
   <div class="logo" routerLink="/">ReHome</div>
 
+  <!-- Buscador -->
   <div class="search-container">
     <input
       type="text"
       placeholder="Buscar producto..."
       [(ngModel)]="searchTerm"
-      (input)="onSearch()"
+      (ngModelChange)="onSearch()"
       class="search-input"
     />
 
@@ -17,6 +18,7 @@
     </ul>
   </div>
 
+  <!-- Enlaces principales -->
   <ul class="nav-links">
     <!-- Dropdown de categorías -->
     <li class="dropdown">
@@ -28,7 +30,13 @@
       </ul>
     </li>
 
+    <!-- Otros enlaces -->
     <li><a routerLink="/products/new">Nuevo producto</a></li>
     <li><a routerLink="/cart">Carrito ({{ cartCount }})</a></li>
+
+    <!-- 🔹 Login / Logout -->
+    <li *ngIf="!isLoggedIn()"><a routerLink="/login">Login</a></li>
+    <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
   </ul>
 </nav>
+

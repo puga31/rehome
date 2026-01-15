@@ -1,42 +1,73 @@
 <h2>Crear nuevo producto</h2>
 
 <form (ngSubmit)="saveProduct()">
+  <!-- Nombre -->
   <div>
     <label>Nombre:</label>
-    <input type="text" [(ngModel)]="product.name" name="name" required />
+    <input
+      type="text"
+      [(ngModel)]="product.name"
+      name="name"
+      required
+      placeholder="Ingresa el nombre del producto"
+    />
   </div>
 
+  <!-- Descripción -->
   <div>
     <label>Descripción:</label>
-    <textarea [(ngModel)]="product.description" name="description"></textarea>
+    <textarea
+      [(ngModel)]="product.description"
+      name="description"
+      placeholder="Ingresa una descripción"
+    ></textarea>
   </div>
 
+  <!-- Categoría -->
   <div>
     <label>Categoría:</label>
-    <select [(ngModel)]="product.category" name="category" required>
-      <option [ngValue]="null">-- Selecciona una categoría --</option>
+    <select
+      [(ngModel)]="product.category"
+      name="category"
+      required
+    >
+      <option [ngValue]="null" disabled>-- Selecciona una categoría --</option>
       <option *ngFor="let c of categories" [ngValue]="c">
         {{ c.name }}
       </option>
     </select>
   </div>
 
+  <!-- Estado -->
   <div>
     <label>Estado:</label>
-    <select [(ngModel)]="product.condition" name="condition">
+    <select [(ngModel)]="product.condition" name="condition" required>
       <option value="New">Nuevo</option>
       <option value="Used">Usado</option>
     </select>
   </div>
 
+  <!-- Precio -->
   <div>
     <label>Precio (€):</label>
-    <input type="number" [(ngModel)]="product.price" name="price" />
+    <input
+      type="number"
+      [(ngModel)]="product.price"
+      name="price"
+      min="0"
+      placeholder="0.00"
+    />
   </div>
 
+  <!-- Imagen -->
   <div>
     <label>URL de la imagen:</label>
-    <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" />
+    <input
+      type="text"
+      [(ngModel)]="product.imageUrl"
+      name="imageUrl"
+      placeholder="https://..."
+    />
   </div>
 
   <button type="submit">Guardar producto</button>

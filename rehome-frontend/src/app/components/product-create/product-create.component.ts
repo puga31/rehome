@@ -20,17 +20,18 @@ export class ProductCreateComponent implements OnInit {
     id: 0, // temporal, el backend generará el real
     name: '',
     description: '',
-    category: null, // ahora puede ser null o un objeto Category
+    category: null, // categoría seleccionada
     condition: 'Used',
     price: 0,
     imageUrl: ''
   };
 
-  categories: Category[] = []; // <-- lista de categorías desde backend
+  categories: Category[] = []; // lista de categorías desde backend
+  userId: number = 1; // <-- Reemplaza esto por el ID del usuario logueado
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService, // <-- inyectamos el servicio
+    private categoryService: CategoryService,
     private router: Router
   ) {}
 
@@ -49,13 +50,18 @@ export class ProductCreateComponent implements OnInit {
       return;
     }
 
-    // Preparamos el objeto a enviar al backend
-    const productToSend = {
-      ...this.product,
-      categoryId: this.product.category.id // enviamos solo el ID de la categoría
+    // Construimos el DTO que el backend espera
+    const productDTO = {
+      name: this.product.name,
+      description: this.product.description,
+      categoryId: this.product.category.id, // enviamos solo el ID de la categoría
+      condition: this.product.condition,
+      price: this.product.price,
+      imageUrl: this.product.imageUrl,
+      userId: this.userId // ID del usuario logueado
     };
 
-    this.productService.createProduct(productToSend).subscribe({
+    this.productService.createProduct(productDTO).subscribe({
       next: () => {
         alert('Producto creado correctamente');
         this.router.navigate(['/products']); // volver al listado
