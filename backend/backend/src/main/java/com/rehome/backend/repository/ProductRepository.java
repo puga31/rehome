@@ -18,4 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // Filtrar productos por usuario
     List<Product> findByUserId(Long userId);
+
+    // NUEVO: últimos 20 productos
+    List<Product> findTop20ByOrderByPublishedAtDesc();
 }

@@ -1,0 +1,24 @@
+<div class="latest-products">
+  <h2>Novedades</h2>
+
+  <div class="grid">
+    <div class="card" *ngFor="let product of products">
+
+      <!-- Click en la tarjeta lleva al detalle -->
+      <a [routerLink]="['/products', product.id]" class="card-link">
+        <img [src]="product.imageUrl" alt="{{ product.name }}" />
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p class="price">
+          {{ product.price ? (product.price | currency:'EUR') : 'Gratis' }}
+        </p>
+      </a>
+
+      <!-- Botón añadir al carrito -->
+      <button (click)="addToCart(product)">
+        Añadir al carrito
+      </button>
+
+    </div>
+  </div>
+</div>

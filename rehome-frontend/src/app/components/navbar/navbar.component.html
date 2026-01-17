@@ -1,5 +1,8 @@
 <nav class="navbar">
-  <div class="logo" routerLink="/">ReHome</div>
+  <a class="logo" routerLink="/">
+  <img src="logo.png" alt="ReHome" class="logo-img">
+</a>
+
 
   <!-- Buscador -->
   <div class="search-container">
@@ -30,6 +33,9 @@
       </ul>
     </li>
 
+    <!-- Enlace novedades -->
+    <li><a routerLink="/latest">Novedades</a></li>
+
     <!-- Otros enlaces -->
     <li><a routerLink="/products/new">Nuevo producto</a></li>
     <li><a routerLink="/cart">Carrito ({{ cartCount }})</a></li>
@@ -39,4 +45,3 @@
     <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
   </ul>
 </nav>
-

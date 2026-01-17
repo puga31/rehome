@@ -10,9 +10,15 @@
 
 /* LOGO */
 .logo {
-  font-size: 20px;
-  font-weight: bold;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 50px;     /* Ajusta el tamaño del logo aquí */
+  width: auto;
+  object-fit: contain;
 }
 
 /* ENLACES DE NAVEGACIÓN */

@@ -124,4 +124,10 @@ public class ProductController {
                 .orElseThrow(() -> new RuntimeException("Category not found with id " + categoryId));
         return productRepository.findByCategory(category);
     }
+
+    // Novedades: últimos 20 productos
+    @GetMapping("/latest")
+    public List<Product> getLatestProducts() {
+        return productRepository.findTop20ByOrderByPublishedAtDesc();
+    }
 }

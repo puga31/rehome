@@ -23,7 +23,11 @@ export class ProductService {
     return this.http.get<Product[]>(`${this.apiUrl}/category/${categoryId}`);
   }
 
-  // ✅ Aquí cambiamos para aceptar un DTO
+  // NUEVO: últimos 20 productos
+  getLatestProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/latest`);
+  }
+
   createProduct(productDTO: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, productDTO);
   }
