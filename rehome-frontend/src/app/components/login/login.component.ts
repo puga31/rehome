@@ -13,25 +13,66 @@ import { AuthService, LoginRequest } from '../../services/auth.service';
 })
 export class LoginComponent {
 
+  // MODO
+  isRegisterMode = false;
+
+  // LOGIN
   email = '';
   password = '';
+
+  // REGISTER
+  name = '';
+  confirmPassword = '';
+
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  login() {
+  // Cambiar entre login / register
+  toggleMode(): void {
+    this.isRegisterMode = !this.isRegisterMode;
+    this.errorMessage = '';
+  }
+
+  // LOGIN
+  login(): void {
     const request: LoginRequest = {
       email: this.email,
       password: this.password
     };
 
     this.authService.login(request).subscribe({
-      next: (user) => {
-        this.authService.setSession(user);
-        this.router.navigate(['/dashboard']); // Ruta protegida o principal
+      next: () => {
+        this.router.navigate(['/products']);
       },
-      error: (err) => {
-        this.errorMessage = err.error || 'Error al iniciar sesión';
+      error: () => {
+        this.errorMessage = 'Email o contraseña incorrectos';
+      }
+    });
+  }
+
+  // REGISTER
+  register(): void {
+
+    if (this.password !== this.confirmPassword) {
+      this.errorMessage = 'Las contraseñas no coinciden';
+      return;
+    }
+
+    this.authService.register({
+      name: this.name,
+      email: this.email,
+      password: this.password
+    }).subscribe({
+      next: () => {
+        this.errorMessage = '';
+        this.toggleMode(); // volver a login
+      },
+      error: () => {
+        this.errorMessage = 'Error al registrarse (email ya usado)';
       }
     });
   }

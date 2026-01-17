@@ -25,3 +25,19 @@ button {
   color: red;
   margin-bottom: 10px;
 }
+
+/* ----------------------------- */
+/* Estilo SOLO para "Regístrate" */
+/* ----------------------------- */
+
+.register-link {
+  color: #00e357;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.register-link:hover {
+  color: #00e357;
+  text-decoration: underline;
+}

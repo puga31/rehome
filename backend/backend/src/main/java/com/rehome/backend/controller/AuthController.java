@@ -19,6 +19,7 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
+    // 🔐 LOGIN
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
 
@@ -30,12 +31,37 @@ public class AuthController {
 
         User user = userOpt.get();
 
-        // 🔐 Login con contraseña
         if (!user.getPassword().equals(userDTO.getPassword())) {
             return ResponseEntity.status(401).body("Contraseña incorrecta");
         }
 
-        // ✅ Login correcto (no devolver password)
+        // ✅ devolver solo datos seguros
+        UserDTO response = new UserDTO();
+        response.setName(user.getName());
+        response.setEmail(user.getEmail());
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 📝 REGISTRO
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody UserDTO userDTO) {
+
+        Optional<User> existingUser = userRepository.findByEmail(userDTO.getEmail());
+
+        if (existingUser.isPresent()) {
+            return ResponseEntity.badRequest().body("El email ya está registrado");
+        }
+
+        User user = new User(
+                userDTO.getEmail(),
+                userDTO.getPassword(), // 🔴 luego BCrypt
+                userDTO.getName()
+        );
+
+        userRepository.save(user);
+
+        // devolver sin password
         UserDTO response = new UserDTO();
         response.setName(user.getName());
         response.setEmail(user.getEmail());
