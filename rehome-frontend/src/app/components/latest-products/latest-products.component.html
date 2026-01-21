@@ -2,21 +2,34 @@
   <h2>Novedades</h2>
 
   <div class="grid">
-    <div class="card" *ngFor="let product of products">
+    <mat-card class="card" *ngFor="let product of products">
 
-      <a [routerLink]="['/products', product.id]" class="card-link">
-        <img [src]="product.imageUrl" alt="{{ product.name }}" />
-        <h3>{{ product.name }}</h3>
+      <img mat-card-image [src]="product.imageUrl" alt="{{ product.name }}">
+
+      <mat-card-header>
+        <mat-card-title>{{ product.name }}</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
         <p>{{ product.description }}</p>
         <p class="price">
           {{ product.price ? (product.price | currency:'EUR') : 'Gratis' }}
         </p>
-      </a>
+      </mat-card-content>
 
-      <button class="btn-add" (click)="addToCart(product)">
-        Añadir al carrito
-      </button>
+      <mat-card-actions>
+        <button mat-icon-button (click)="addToCart(product)" aria-label="Añadir al carrito">
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
 
-    </div>
+        <!-- USANDO likedIds -->
+        <button mat-icon-button (click)="toggleLike(product)" aria-label="Me gusta">
+          <mat-icon [color]="likedIds.includes(product.id!) ? 'warn' : 'default'">
+            {{ likedIds.includes(product.id!) ? 'favorite' : 'favorite_border' }}
+          </mat-icon>
+        </button>
+      </mat-card-actions>
+
+    </mat-card>
   </div>
 </div>
