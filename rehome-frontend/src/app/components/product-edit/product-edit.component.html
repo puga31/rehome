@@ -1,36 +1,38 @@
-<div *ngIf="loading">
-  <p>Cargando producto...</p>
+<div class="product-edit-container">
+  <div *ngIf="loading">
+    <p>Cargando producto...</p>
+  </div>
+
+  <form *ngIf="!loading" (ngSubmit)="save()" class="product-edit">
+
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="product.name" name="name" required />
+
+    <label>Descripción</label>
+    <textarea [(ngModel)]="product.description" name="description"></textarea>
+
+    <label>Categoría</label>
+    <select [(ngModel)]="product.category" name="category" required>
+      <option [ngValue]="null">-- Selecciona una categoría --</option>
+      <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
+    </select>
+
+    <label>Estado</label>
+    <select [(ngModel)]="product.condition" name="condition">
+      <option value="New">Nuevo</option>
+      <option value="Used">Usado</option>
+    </select>
+
+    <label>Precio</label>
+    <input type="number" [(ngModel)]="product.price" name="price" />
+
+    <label>Imagen URL</label>
+    <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" />
+
+    <br /><br />
+
+    <button type="submit" class="btn-save">Guardar</button>
+    <button type="button" class="btn-cancel" (click)="cancel()">Cancelar</button>
+
+  </form>
 </div>
-
-<form *ngIf="!loading" (ngSubmit)="save()">
-
-  <label>Nombre</label>
-  <input type="text" [(ngModel)]="product.name" name="name" required />
-
-  <label>Descripción</label>
-  <textarea [(ngModel)]="product.description" name="description"></textarea>
-
-  <label>Categoría</label>
-  <select [(ngModel)]="product.category" name="category" required>
-    <option [ngValue]="null">-- Selecciona una categoría --</option>
-    <option *ngFor="let c of categories" [ngValue]="c">{{ c.name }}</option>
-  </select>
-
-  <label>Estado</label>
-  <select [(ngModel)]="product.condition" name="condition">
-    <option value="New">Nuevo</option>
-    <option value="Used">Usado</option>
-  </select>
-
-  <label>Precio</label>
-  <input type="number" [(ngModel)]="product.price" name="price" />
-
-  <label>Imagen URL</label>
-  <input type="text" [(ngModel)]="product.imageUrl" name="imageUrl" />
-
-  <br /><br />
-
-  <button type="submit">Guardar</button>
-  <button type="button" (click)="cancel()">Cancelar</button>
-
-</form>

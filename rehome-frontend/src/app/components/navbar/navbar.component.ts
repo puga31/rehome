@@ -2,16 +2,31 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
 import { CartService } from '../../services/cart/cart.service';
 import { Product } from '../../models/product.model';
 import { ProductCacheService } from '../../services/product-cache.service';
 import { CategoryService, Category } from '../../services/category.service';
-import { AuthService } from '../../services/auth.service'; // 🔹 Import AuthService
+import { AuthService } from '../../services/auth.service';
+
+// Angular Material
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -21,7 +36,7 @@ export class NavbarComponent implements OnInit {
   searchTerm: string = '';
   suggestions: Product[] = [];
   private productsLoaded = false;
-  categories: Category[] = []; // categorías cargadas del backend
+  categories: Category[] = [];
 
   constructor(
     private cartService: CartService,
@@ -29,21 +44,18 @@ export class NavbarComponent implements OnInit {
     private productCache: ProductCacheService,
     private categoryService: CategoryService,
     private eRef: ElementRef,
-    private authService: AuthService // 🔹 inyectar AuthService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    // Contador del carrito
     this.cartService.cart$.subscribe(() => {
       this.cartCount = this.cartService.getCount();
     });
 
-    // Cargar productos cache
     this.productCache.loadProducts().then(() => {
       this.productsLoaded = true;
     });
 
-    // Cargar categorías desde backend
     this.categoryService.getCategories().subscribe({
       next: (data) => {
         this.categories = data;
@@ -52,18 +64,15 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // 🔹 Comprobar si hay usuario logueado
   isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
-  // 🔹 Logout
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
-  // 🔹 Búsqueda de productos
   onSearch(): void {
     if (!this.searchTerm) {
       this.suggestions = [];
@@ -101,7 +110,6 @@ export class NavbarComponent implements OnInit {
     this.suggestions = [];
   }
 
-  // Detecta click fuera del navbar y cierra sugerencias
   @HostListener('document:click', ['$event'])
   handleClickOutside(event: Event) {
     if (!this.eRef.nativeElement.contains(event.target)) {

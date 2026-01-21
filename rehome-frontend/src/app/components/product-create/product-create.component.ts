@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 import { CategoryService, Category } from '../../services/category.service';
@@ -9,7 +11,7 @@ import { CategoryService, Category } from '../../services/category.service';
 @Component({
   selector: 'app-product-create',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, MatIconModule],
   templateUrl: './product-create.component.html',
   styleUrls: ['./product-create.component.css']
 })

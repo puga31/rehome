@@ -1,32 +1,31 @@
-<div *ngIf="loading">
-  <p>Cargando producto...</p>
-</div>
-
-<div *ngIf="!loading && product">
-  <h2>{{ product.name }}</h2>
-  
-  <p><strong>Descripción:</strong> {{ product.description }}</p>
-  <p><strong>Categoría:</strong> {{ product.category }}</p>
-  <p><strong>Estado:</strong> {{ product.condition }}</p>
-  
-  <p>
-    <strong>Precio:</strong>
-    {{ product.price != null ? (product.price | currency:'EUR':'symbol':'1.2-2') : 'Gratis' }}
-  </p>
-  
-  <p><strong>Publicado el:</strong> {{ product.publishedAt | date:'short' }}</p>
-
-  <div *ngIf="product.imageUrl">
-    <img [src]="product.imageUrl" alt="{{ product.name }}" style="max-width: 300px;">
+<div class="product-detail">
+  <div *ngIf="loading">
+    <p>Cargando producto...</p>
   </div>
 
-  <!-- Botón de añadir al carrito -->
-  <button (click)="addToCart()">Añadir al carrito</button>
+  <div *ngIf="!loading && product">
+    <h2>{{ product.name }}</h2>
 
-  <!-- Botón de volver -->
-  <button (click)="goBack()">Volver al listado</button>
-</div>
+    <p><strong>Descripción:</strong> {{ product.description }}</p>
+    <p><strong>Categoría:</strong> {{ product.category }}</p>
+    <p><strong>Estado:</strong> {{ product.condition }}</p>
 
-<div *ngIf="!loading && !product">
-  <p>Producto no encontrado.</p>
+    <p>
+      <strong>Precio:</strong>
+      {{ product.price != null ? (product.price | currency:'EUR':'symbol':'1.2-2') : 'Gratis' }}
+    </p>
+
+    <p><strong>Publicado el:</strong> {{ product.publishedAt | date:'short' }}</p>
+
+    <div *ngIf="product.imageUrl">
+      <img [src]="product.imageUrl" alt="{{ product.name }}">
+    </div>
+
+    <button (click)="addToCart()">Añadir al carrito</button>
+    <button (click)="goBack()">Volver al listado</button>
+  </div>
+
+  <div *ngIf="!loading && !product">
+    <p>Producto no encontrado.</p>
+  </div>
 </div>

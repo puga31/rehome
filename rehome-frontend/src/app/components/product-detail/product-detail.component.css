@@ -1,20 +1,12 @@
-h2 {
+.product-detail h2 {
   margin-bottom: 10px;
 }
 
-p {
+.product-detail p {
   margin: 5px 0;
 }
 
-img {
+.product-detail img {
   display: block;
   margin-top: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  margin-top: 15px;
-  padding: 5px 10px;
-  cursor: pointer;
 }

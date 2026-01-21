@@ -31,9 +31,20 @@
   color: #555;
 }
 
-.card .info {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+.card .price {
   font-weight: bold;
+  margin-top: 10px;
+}
+
+/* El link completo se comporta como tarjeta */
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Botón "Añadir al carrito" */
+.btn-add {
+  margin-top: 10px;
+  width: 100%;
 }

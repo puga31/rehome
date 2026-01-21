@@ -1,12 +1,12 @@
 <nav class="navbar">
   <a class="logo" routerLink="/">
-  <img src="logo.png" alt="ReHome" class="logo-img">
-</a>
-
+    <img src="logo.png" alt="ReHome" class="logo-img">
+  </a>
 
   <!-- Buscador -->
   <div class="search-container">
     <input
+      matInput
       type="text"
       placeholder="Buscar producto..."
       [(ngModel)]="searchTerm"
@@ -36,12 +36,33 @@
     <!-- Enlace novedades -->
     <li><a routerLink="/latest">Novedades</a></li>
 
-    <!-- Otros enlaces -->
-    <li><a routerLink="/products/new">Nuevo producto</a></li>
-    <li><a routerLink="/cart">Carrito ({{ cartCount }})</a></li>
+    <!-- Botón Vender -->
+    <li>
+      <a routerLink="/products/new" class="btn-primary">
+        <mat-icon>add</mat-icon>
+        Vender
+      </a>
+    </li>
 
-    <!-- 🔹 Login / Logout -->
-    <li *ngIf="!isLoggedIn()"><a routerLink="/login">Login</a></li>
-    <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
+    <!-- ICONO CARRITO -->
+    <li>
+      <a routerLink="/cart" class="icon-link">
+        <mat-icon>shopping_cart</mat-icon>
+        <span class="badge">{{ cartCount }}</span>
+      </a>
+    </li>
+
+    <!-- ICONO LOGIN / LOGOUT -->
+    <li *ngIf="!isLoggedIn()">
+      <a routerLink="/login" class="icon-link">
+        <mat-icon>person</mat-icon>
+      </a>
+    </li>
+
+    <li *ngIf="isLoggedIn()">
+      <a (click)="logout()" class="icon-link">
+        <mat-icon>logout</mat-icon>
+      </a>
+    </li>
   </ul>
 </nav>

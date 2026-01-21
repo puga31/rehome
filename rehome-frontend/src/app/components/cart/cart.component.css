@@ -1,0 +1,45 @@
+.cart-container {
+  padding: 20px;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cart-item {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-info p {
+  margin: 4px 0;
+}
+
+.item-actions button {
+  margin: 0 5px;
+}
+
+.total {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+/* Botones específicos */
+.btn-minus {
+  background: #ff4b3a;
+}
+
+.btn-plus {
+  background: #008f40;
+}
+
+.btn-clear {
+  background: #3a86ff;
+}

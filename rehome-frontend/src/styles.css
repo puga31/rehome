@@ -1,1 +1,181 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ===============================
+   VARIABLES GLOBALES
+================================ */
+:root {
+  --dark-1: #2f2f2f;
+  --dark-2: #3a3a3a;
+  --dark-input: #2b2b2b;
+
+  --green-main: #008f40;
+  --red-accent: #ff4b3a;
+
+  --text-light: #ffffff;
+
+  --shadow-soft: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ===============================
+   ICONOS GENÉRICOS
+================================ */
+.icon-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.icon-link mat-icon {
+  font-size: 22px;
+}
+
+/* ===============================
+   BADGES (carrito, notificaciones…)
+================================ */
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--green-main);
+  color: white;
+  border-radius: 999px;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+/* ===============================
+   BOTÓN PRINCIPAL (VENDER)
+================================ */
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--green-main);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  background: var(--red-accent);
+}
+
+/* ===============================
+   FORMULARIOS BASE
+================================ */
+.form-control {
+  width: 100%;
+  max-width: 400px;
+  padding: 8px;
+  margin-top: 3px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* ===============================
+   BOTONES GLOBALES (base)
+================================ */
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 400;
+  background: var(--green-main);
+  color: #fff;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: #006f30;
+}
+
+/* ===============================
+   BOTONES ESPECÍFICOS (para sobrescribir)
+================================ */
+.btn-view {
+  background: #3a86ff;
+  color: white;
+}
+
+.btn-edit {
+  background: #00b894;
+  color: white;
+}
+
+.btn-delete {
+  background: #ff4b3a;
+  color: white;
+}
+
+/* ===============================
+   TABLAS GLOBALES
+================================ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+table th {
+  background: var(--dark-1);
+  color: white;
+}
+
+/* ===============================
+   IMÁGENES GLOBALES
+================================ */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===============================
+   BOTONES CARRITO (para no afectar al resto)
+================================ */
+.btn-minus { background: var(--red-accent); }
+.btn-plus  { background: var(--green-main); }
+.btn-clear { background: #3a86ff; }
+
+/* ===============================
+   CARD (por si lo usas en Latest)
+================================ */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: var(--shadow-soft);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}

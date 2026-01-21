@@ -3,8 +3,9 @@
 <form (ngSubmit)="saveProduct()">
   <!-- Nombre -->
   <div>
-    <label>Nombre:</label>
+    <label class="form-label">Nombre:</label>
     <input
+      class="form-control"
       type="text"
       [(ngModel)]="product.name"
       name="name"
@@ -15,8 +16,9 @@
 
   <!-- Descripción -->
   <div>
-    <label>Descripción:</label>
+    <label class="form-label">Descripción:</label>
     <textarea
+      class="form-control"
       [(ngModel)]="product.description"
       name="description"
       placeholder="Ingresa una descripción"
@@ -25,8 +27,9 @@
 
   <!-- Categoría -->
   <div>
-    <label>Categoría:</label>
+    <label class="form-label">Categoría:</label>
     <select
+      class="form-control"
       [(ngModel)]="product.category"
       name="category"
       required
@@ -40,8 +43,8 @@
 
   <!-- Estado -->
   <div>
-    <label>Estado:</label>
-    <select [(ngModel)]="product.condition" name="condition" required>
+    <label class="form-label">Estado:</label>
+    <select class="form-control" [(ngModel)]="product.condition" name="condition" required>
       <option value="New">Nuevo</option>
       <option value="Used">Usado</option>
     </select>
@@ -49,8 +52,9 @@
 
   <!-- Precio -->
   <div>
-    <label>Precio (€):</label>
+    <label class="form-label">Precio (€):</label>
     <input
+      class="form-control"
       type="number"
       [(ngModel)]="product.price"
       name="price"
@@ -61,8 +65,9 @@
 
   <!-- Imagen -->
   <div>
-    <label>URL de la imagen:</label>
+    <label class="form-label">URL de la imagen:</label>
     <input
+      class="form-control"
       type="text"
       [(ngModel)]="product.imageUrl"
       name="imageUrl"
@@ -70,5 +75,8 @@
     />
   </div>
 
-  <button type="submit">Guardar producto</button>
+  <button type="submit" class="btn-primary">
+    
+    Guardar producto
+  </button>
 </form>

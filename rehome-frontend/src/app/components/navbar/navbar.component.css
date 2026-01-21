@@ -1,14 +1,20 @@
-/* NAVBAR */
+/* ===============================
+   NAVBAR
+================================ */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 20px;
-  background-color: #3a3a3a;
-  color: #fff;
+  background: linear-gradient(90deg, var(--dark-1), var(--dark-2));
+  backdrop-filter: blur(8px);
+  color: var(--text-light);
+  box-shadow: var(--shadow-soft);
 }
 
-/* LOGO */
+/* ===============================
+   LOGO
+================================ */
 .logo {
   cursor: pointer;
   display: flex;
@@ -16,29 +22,90 @@
 }
 
 .logo-img {
-  height: 50px;     /* Ajusta el tamaño del logo aquí */
+  height: 50px;
   width: auto;
   object-fit: contain;
 }
 
-/* ENLACES DE NAVEGACIÓN */
+/* ===============================
+   BUSCADOR
+================================ */
+.search-container {
+  position: relative;
+  width: 340px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  background-color: var(--dark-input);
+  color: #fff;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #888;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+
+/* ===============================
+   SUGERENCIAS
+================================ */
+.suggestions {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  border-radius: 0 0 8px 8px;
+}
+
+.suggestions li {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: #222;
+}
+
+.suggestions li:hover {
+  background: #f5f5f5;
+}
+
+/* ===============================
+   LINKS NAVBAR
+================================ */
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 16px;
-  position: relative; /* necesario para dropdown */
+  gap: 18px;
+  align-items: center;
 }
 
 .nav-links a {
   color: white;
   text-decoration: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
 }
 
 .nav-links a:hover {
-  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* DROPDOWN */
+/* ===============================
+   DROPDOWN
+================================ */
 .dropdown {
   position: relative;
 }
@@ -46,16 +113,16 @@
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
-  background: white;
-  color: black;
-  min-width: 120px;
+  background: #fff;
+  color: #000;
+  min-width: 160px;
   list-style: none;
   padding: 0;
   margin: 0;
-  border-radius: 4px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.18);
   z-index: 100;
 }
 
@@ -64,7 +131,7 @@
 }
 
 .dropdown-menu li {
-  padding: 0.5rem;
+  padding: 10px 12px;
   cursor: pointer;
 }
 
@@ -72,46 +139,25 @@
   background-color: #f5f5f5;
 }
 
-/* CONTENEDOR DE BÚSQUEDA */
-.search-container {
-  position: relative;
+/* ===============================
+   RESPONSIVE
+================================ */
+@media (max-width: 1100px) {
+  .search-container {
+    width: 260px;
+  }
 }
 
-/* INPUT DE BÚSQUEDA */
-.search-input {
-  padding: 0.3rem 0.5rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
+@media (max-width: 900px) {
+  .search-container {
+    display: none;
+  }
 
-/* LISTA DE SUGERENCIAS */
-.suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ccc;
-  border-top: none;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  border-radius: 0 0 5px 5px;
-}
+  .nav-links {
+    gap: 12px;
+  }
 
-/* ITEMS DE SUGERENCIAS */
-.suggestions li {
-  padding: 0.5rem;
-  cursor: pointer;
-  color: black;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.suggestions li:hover {
-  background-color: #f5f5f5;
-  color: #333;
+  .logo-img {
+    height: 40px;
+  }
 }
